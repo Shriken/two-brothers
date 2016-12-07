@@ -7,8 +7,11 @@ import std.range;
 
 import derelict.sdl2.sdl;
 
+import graph;
+import misc.coords;
 import state.render_state;
 import state.sim_state;
+import widget.button_widget;
 import widget.widget;
 
 const int TICKS_PER_SECOND = 60;
@@ -20,9 +23,13 @@ class State {
 	RenderState renderState;
 	SimulationState simState;
 
+	Widget[] widgets;
+	Node curNode;
+
 	private {
-		Widget[] widgets;
 		double fps;
+
+		static const MENU_BUTTON_SIZE = RenderCoords(150, 50);
 	}
 
 	this() {
@@ -30,6 +37,21 @@ class State {
 		simState = new SimulationState();
 
 		renderState.init();
+
+		widgets ~= new ButtonWidget(
+			"left",
+			MENU_BUTTON_SIZE,
+			ClickFunction(function(State state, SDL_MouseButtonEvent) {
+				state.curNode = state.curNode.left;
+			})
+		);
+		widgets ~= new ButtonWidget(
+			"right",
+			MENU_BUTTON_SIZE,
+			ClickFunction(function(State state, SDL_MouseButtonEvent) {
+				state.curNode = state.curNode.right;
+			}),
+		);
 	}
 
 	void play() {
