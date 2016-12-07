@@ -13,7 +13,7 @@ import state.render_state;
 const auto BLACK = SDL_Color(0, 0, 0, 0);
 const auto WHITE = SDL_Color(0xff, 0xff, 0xff, 0xff);
 
-void setRenderDrawColor(
+void setDrawColor(
 	SDL_Renderer *renderer,
 	SDL_Color color,
 	ubyte alpha
@@ -122,7 +122,7 @@ void drawRect(
 		topLeft,
 		topLeft + dimensions
 	);
-	setRenderDrawColor(state.renderer, color, alpha);
+	setDrawColor(state.renderer, color, alpha);
 	SDL_RenderDrawRect(state.renderer, &targetRect);
 }
 
@@ -137,7 +137,7 @@ void fillRect(
 		topLeft,
 		topLeft + dimensions
 	);
-	setRenderDrawColor(state.renderer, color, alpha);
+	setDrawColor(state.renderer, color, alpha);
 	SDL_RenderFillRect(state.renderer, &targetRect);
 }
 
@@ -148,7 +148,7 @@ void drawLine(
 	SDL_Color color,
 	ubyte alpha,
 ) {
-	setRenderDrawColor(state.renderer, color, alpha);
+	setDrawColor(state.renderer, color, alpha);
 	SDL_RenderDrawLine(
 		state.renderer,
 		cast(int)point1.x,

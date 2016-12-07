@@ -1,7 +1,6 @@
 module state.render_state;
 
 import std.stdio;
-import std.stdio;
 
 import derelict.sdl2.sdl;
 import derelict.sdl2.ttf;
@@ -12,6 +11,9 @@ import misc.rect;
 import misc.resources;
 import render_utils;
 import state.state;
+
+const SDL_Color WHITE = SDL_Color(0xff, 0xff, 0xff, 0xff);
+const SDL_Color YELLOW = SDL_Color(0x40, 0x40, 0xff, 0xff);
 
 class RenderState {
 	RenderCoords windowDimensions = RenderCoords(1240, 800);
@@ -30,10 +32,13 @@ class RenderState {
 		SDL_RenderSetViewport(renderer, null);
 		this.renderClear();
 
+		// draw nodes
 		foreach (node; simState.graph.nodes) {
-			node.render(this);
+			node.render(state, WHITE);
 		}
+		simState.curNode.render(state, YELLOW);
 
+		// draw widgets
 		foreach (widget; state.widgets) {
 			auto clipRect = getRectFromVectors(
 				widget.offset,

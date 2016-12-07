@@ -24,7 +24,6 @@ class State {
 	SimulationState simState;
 
 	Widget[] widgets;
-	Node curNode;
 
 	private {
 		double fps;
@@ -36,14 +35,13 @@ class State {
 		renderState = new RenderState();
 		renderState.init();
 		simState = new SimulationState();
-		curNode = simState.graph.nodes[0];
 
 		auto windowDims = renderState.windowDimensions;
 		auto leftButton = new ButtonWidget(
 			"left",
 			MENU_BUTTON_SIZE,
 			ClickFunction(function(State state, SDL_MouseButtonEvent) {
-				state.curNode = state.curNode.left;
+				state.simState.curNode = state.simState.curNode.left;
 			})
 		);
 		leftButton.offset = RenderCoords(windowDims.x / 2, windowDims.y)
@@ -54,7 +52,7 @@ class State {
 			"right",
 			MENU_BUTTON_SIZE,
 			ClickFunction(function(State state, SDL_MouseButtonEvent) {
-				state.curNode = state.curNode.right;
+				state.simState.curNode = state.simState.curNode.right;
 			}),
 		);
 		rightButton.offset = RenderCoords(
