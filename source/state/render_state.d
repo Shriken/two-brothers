@@ -13,6 +13,8 @@ import render_utils;
 import state.state;
 
 const SDL_Color WHITE = SDL_Color(0xff, 0xff, 0xff, 0xff);
+const SDL_Color RED = SDL_Color(0xff, 0x00, 0x00, 0xff);
+const SDL_Color GREEN = SDL_Color(0x00, 0xff, 0x00, 0xff);
 const SDL_Color HIGHLIGHT = SDL_Color(0x20, 0x60, 0xff, 0xff);
 
 class RenderState {

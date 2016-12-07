@@ -8,6 +8,7 @@ import misc.coords;
 import misc.utils;
 import render_utils;
 import state.state;
+import state.render_state;
 
 class Graph {
 	Node[] nodes;
@@ -17,6 +18,18 @@ class Graph {
 		foreach (i; 0 .. size) {
 			nodes[i] = new Node(i);
 		}
+	}
+
+	bool isConnected() {
+		foreach (u; 0 .. nodes.length) {
+			foreach (v; 0 .. nodes.length) {
+				Node[] toVisit = [nodes[u]];
+				while (toVisit.length > 0) {
+				}
+			}
+		}
+
+		return true;
 	}
 
 	override string toString() {
@@ -34,6 +47,8 @@ class Node {
 
 	this(int index) {
 		this.index = index;
+		this.left = this;
+		this.right = this;
 	}
 
 	void setLeft(Node other) {
@@ -71,24 +86,32 @@ class Node {
 		auto renderPos = getRenderPos(state);
 
 		// left arrow
-		auto leftPos = left.getRenderPos(state);
-		state.renderState.drawLine(renderPos, leftPos, WHITE, 0xff);
-		auto leftHeadPos = lerp(renderPos, leftPos, 0.9);
-		state.renderState.fillRect(
-			leftHeadPos - HEAD_DIMS / 2,
-			HEAD_DIMS,
-			WHITE, 0xff
-		);
+		{
+			auto leftPos = left.getRenderPos(state);
+			state.renderState.drawLine(renderPos, leftPos, RED, 0xff);
+			auto length = sqrt(cast(real) renderPos.squaredDistanceTo(leftPos));
+			auto lerpParam = (length - HEAD_DIMS.x * 4) / length;
+			auto headPos = lerp(renderPos, leftPos, lerpParam);
+			state.renderState.fillRect(
+				headPos - HEAD_DIMS / 2,
+				HEAD_DIMS,
+				RED, 0xff
+			);
+		}
 
 		// right arrow
-		auto rightPos = right.getRenderPos(state);
-		state.renderState.drawLine(renderPos, rightPos, WHITE, 0xff);
-		auto rightHeadPos = lerp(renderPos, rightPos, 0.9);
-		state.renderState.fillRect(
-			rightHeadPos - HEAD_DIMS / 2,
-			HEAD_DIMS,
-			WHITE, 0xff
-		);
+		{
+			auto rightPos = right.getRenderPos(state);
+			state.renderState.drawLine(renderPos, rightPos, GREEN, 0xff);
+			auto length = sqrt(cast(real) renderPos.squaredDistanceTo(rightPos));
+			auto lerpParam = (length - HEAD_DIMS.x * 4) / length;
+			auto headPos = lerp(renderPos, rightPos, lerpParam);
+			state.renderState.fillRect(
+				headPos - HEAD_DIMS / 2,
+				HEAD_DIMS,
+				GREEN, 0xff
+			);
+		}
 
 		state.renderState.fillRect(
 			renderPos - RECT_DIMS / 2,

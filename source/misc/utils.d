@@ -20,3 +20,14 @@ RenderCoords lerp(in RenderCoords x, in RenderCoords y, real param) {
 		cast(int) (y.y * param + x.y * (1 - param)),
 	);
 }
+
+class Stack(T) {
+	private T[] data = new T[100];
+	private size_t _length = 0;
+
+	void push(T t) {
+		_length++;
+		if (length > data.length) {
+		}
+	}
+}

@@ -38,7 +38,7 @@ class State {
 
 		auto windowDims = renderState.windowDimensions;
 		auto leftButton = new ButtonWidget(
-			"left",
+			"red",
 			MENU_BUTTON_SIZE,
 			ClickFunction(function(State state, SDL_MouseButtonEvent) {
 				state.simState.curNode = state.simState.curNode.left;
@@ -49,7 +49,7 @@ class State {
 		widgets ~= leftButton;
 
 		auto rightButton = new ButtonWidget(
-			"right",
+			"green",
 			MENU_BUTTON_SIZE,
 			ClickFunction(function(State state, SDL_MouseButtonEvent) {
 				state.simState.curNode = state.simState.curNode.right;
