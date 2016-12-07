@@ -15,6 +15,8 @@ class SimulationState {
 	this() {
 		graph = generateGraph(NUM_NODES);
 		curNode = graph.nodes[0];
+		import std.stdio;
+		writeln("graph connected: ", graph.isConnected());
 	}
 
 	Graph generateGraph(int size) {

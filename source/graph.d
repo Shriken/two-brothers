@@ -22,10 +22,18 @@ class Graph {
 
 	bool isConnected() {
 		foreach (u; 0 .. nodes.length) {
-			foreach (v; 0 .. nodes.length) {
-				Node[] toVisit = [nodes[u]];
-				while (toVisit.length > 0) {
-				}
+			auto toVisit = [nodes[u]];
+			auto visited = new bool[nodes.length];
+			while (toVisit.length > 0) {
+				auto curNode = toVisit[$-1];
+				toVisit.length--;
+				if (visited[curNode.index]) continue;
+				visited[curNode.index] = true;
+				toVisit ~= [curNode.left, curNode.right];
+			}
+
+			foreach (v; visited) {
+				if (!v) return false;
 			}
 		}
 
