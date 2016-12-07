@@ -1,0 +1,7 @@
+name "two-brothers"
+description "Two robot exploration emulator"
+authors "Zane Sterling"
+copyright "Copyright © 2016, Zane Sterling"
+license "none"
+dependency "gfm:math" version="~>6.2.0"
+dependency "derelict-sdl2" version="~>3.0.0"
