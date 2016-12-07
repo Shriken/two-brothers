@@ -13,7 +13,7 @@ import render_utils;
 import state.state;
 
 const SDL_Color WHITE = SDL_Color(0xff, 0xff, 0xff, 0xff);
-const SDL_Color YELLOW = SDL_Color(0x40, 0x40, 0xff, 0xff);
+const SDL_Color HIGHLIGHT = SDL_Color(0x20, 0x60, 0xff, 0xff);
 
 class RenderState {
 	RenderCoords windowDimensions = RenderCoords(1240, 800);
@@ -36,7 +36,7 @@ class RenderState {
 		foreach (node; simState.graph.nodes) {
 			node.render(state, WHITE);
 		}
-		simState.curNode.render(state, YELLOW);
+		simState.curNode.render(state, HIGHLIGHT);
 
 		// draw widgets
 		foreach (widget; state.widgets) {

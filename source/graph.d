@@ -69,11 +69,6 @@ class Node {
 	static const RenderCoords HEAD_DIMS = RenderCoords(6, 6);
 	void render(State state, SDL_Color color) {
 		auto renderPos = getRenderPos(state);
-		state.renderState.fillRect(
-			renderPos - RECT_DIMS / 2,
-			RECT_DIMS,
-			color, 0xff
-		);
 
 		// left arrow
 		auto leftPos = left.getRenderPos(state);
@@ -93,6 +88,12 @@ class Node {
 			rightHeadPos - HEAD_DIMS / 2,
 			HEAD_DIMS,
 			WHITE, 0xff
+		);
+
+		state.renderState.fillRect(
+			renderPos - RECT_DIMS / 2,
+			RECT_DIMS,
+			color, 0xff
 		);
 	}
 }

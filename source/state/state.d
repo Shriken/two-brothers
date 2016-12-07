@@ -90,10 +90,10 @@ class State {
 	}
 
 	void show() {
-		renderState.render(this);
-
 		SDL_Event event;
 		while (simState.running) {
+			renderState.render(this);
+
 			while (SDL_PollEvent(&event) != 0) {
 				handleEvent(event);
 			}
