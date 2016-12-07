@@ -34,24 +34,34 @@ class State {
 
 	this() {
 		renderState = new RenderState();
-		simState = new SimulationState();
-
 		renderState.init();
+		simState = new SimulationState();
+		curNode = simState.graph.nodes[0];
 
-		widgets ~= new ButtonWidget(
+		auto windowDims = renderState.windowDimensions;
+		auto leftButton = new ButtonWidget(
 			"left",
 			MENU_BUTTON_SIZE,
 			ClickFunction(function(State state, SDL_MouseButtonEvent) {
 				state.curNode = state.curNode.left;
 			})
 		);
-		widgets ~= new ButtonWidget(
+		leftButton.offset = RenderCoords(windowDims.x / 2, windowDims.y)
+			- MENU_BUTTON_SIZE;
+		widgets ~= leftButton;
+
+		auto rightButton = new ButtonWidget(
 			"right",
 			MENU_BUTTON_SIZE,
 			ClickFunction(function(State state, SDL_MouseButtonEvent) {
 				state.curNode = state.curNode.right;
 			}),
 		);
+		rightButton.offset = RenderCoords(
+			windowDims.x / 2,
+			windowDims.y - MENU_BUTTON_SIZE.y
+		);
+		widgets ~= rightButton;
 	}
 
 	void play() {
@@ -77,12 +87,12 @@ class State {
 			if (!simState.paused) {
 				simState.update();
 			}
-			renderState.render(simState);
+			renderState.render(this);
 		}
 	}
 
 	void show() {
-		renderState.render(simState);
+		renderState.render(this);
 
 		SDL_Event event;
 		while (simState.running) {

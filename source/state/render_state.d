@@ -8,8 +8,10 @@ import derelict.sdl2.ttf;
 import gfm.math.vector;
 
 import misc.coords;
+import misc.rect;
 import misc.resources;
-import state.sim_state;
+import render_utils;
+import state.state;
 
 class RenderState {
 	RenderCoords windowDimensions = RenderCoords(1240, 800);
@@ -21,7 +23,28 @@ class RenderState {
 	TTF_Font *buttonFont;
 	double scale = 1;
 
-	void render(SimulationState simState) {}
+	void render(State state) {
+		auto simState = state.simState;
+
+		// clear screen
+		SDL_RenderSetViewport(renderer, null);
+		this.renderClear();
+
+		foreach (node; simState.graph.nodes) {
+			node.render(this);
+		}
+
+		foreach (widget; state.widgets) {
+			auto clipRect = getRectFromVectors(
+				widget.offset,
+				widget.offset + widget.dimensions
+			);
+			SDL_RenderSetViewport(renderer, &clipRect);
+			widget.render(state);
+		}
+
+		SDL_RenderPresent(renderer);
+	}
 
 	bool init() {
 		// set up SDL

@@ -1,6 +1,8 @@
 import std.algorithm;
 import std.format;
 
+import state.render_state;
+
 class Graph {
 	Node[] nodes;
 
@@ -31,14 +33,19 @@ class Node {
 	void setLeft(Node other) {
 		if (left !is null) left.refs--;
 		left = other;
+		left.refs++;
 	}
 
 	void setRight(Node other) {
 		if (right !is null) right.refs--;
 		right = other;
+		left.refs++;
 	}
 
 	override string toString() {
 		return format("%d: left=%d, right=%d, refs=%d", left, right, refs);
+	}
+
+	void render(RenderState renderState) {
 	}
 }

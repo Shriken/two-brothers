@@ -1,7 +1,5 @@
 module state.sim_state;
 
-import std.stdio;
-
 import graph;
 import misc.utils;
 
@@ -12,7 +10,6 @@ class SimulationState {
 	bool paused = false;
 
 	Graph graph;
-	Node[] graphNodes;
 
 	this() {
 		graph = generateGraph(NUM_NODES);
