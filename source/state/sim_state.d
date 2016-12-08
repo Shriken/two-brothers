@@ -1,9 +1,11 @@
 module state.sim_state;
 
+import std.random;
+
 import graph;
 import misc.utils;
 
-enum GenerationTechnique {
+enum GenTechnique {
 	ring,
 	smart_random,
 }
@@ -17,24 +19,25 @@ class SimulationState {
 	Graph graph;
 	Node curNode;
 
-	GenerationTechnique generation_technique;
+	GenTechnique generation_technique = GenTechnique.smart_random;
 
-	this(GenerationTechnique gen_technique=GenerationTechnique.ring) {
-		graph = generateGraph(NUM_NODES);
-		curNode = graph.nodes[0];
-		import std.stdio;
-		writeln("graph connected: ", graph.isConnected());
+	this(GenTechnique gen_technique=GenTechnique.ring) {
+		generateGraph();
 	}
 
-	Graph generateGraph(int size) {
-		switch (generation_technique) {
-			case GenerationTechnique.ring:
-				return generateGraphRing(size);
-			case GenerationTechnique.smart_random:
-				return generateGraphSmartRandom(size);
-			default:
-				return null;
+	void generateGraph() {
+		final switch (generation_technique) {
+			case GenTechnique.ring:
+				graph = generateGraphRing(NUM_NODES);
+				break;
+			case GenTechnique.smart_random:
+				graph = generateGraphSmartRandom(NUM_NODES);
+				break;
 		}
+		curNode = graph.nodes[0];
+
+		import std.stdio;
+		writeln("graph connected: ", graph.isConnected());
 	}
 
 	Graph generateGraphRing(int size) {
@@ -47,7 +50,18 @@ class SimulationState {
 	}
 
 	Graph generateGraphSmartRandom(int size) {
-		return null;
+		Graph g;
+		g = new Graph(size);
+		foreach (node; g.nodes) {
+			node.left = g.nodes[uniform(0, size)];
+		}
+
+		do {
+			foreach (node; g.nodes) {
+				node.right = g.nodes[uniform(0, size)];
+			}
+		} while (!g.isConnected());
+		return g;
 	}
 
 	void update() {}

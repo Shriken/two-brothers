@@ -135,6 +135,10 @@ class State {
 				renderState.debugRender = !renderState.debugRender;
 				break;
 
+			case SDLK_r:
+				simState.generateGraph();
+				break;
+
 			default:
 				break;
 		}
