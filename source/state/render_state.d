@@ -38,7 +38,7 @@ class RenderState {
 		foreach (node; simState.graph.nodes) {
 			node.render(state, WHITE);
 		}
-		simState.curNode.render(state, HIGHLIGHT);
+		simState.curNode.render(state, HIGHLIGHT, false);
 
 		// draw widgets
 		foreach (widget; state.widgets) {
@@ -63,7 +63,7 @@ class RenderState {
 
 		// create the game window
 		window = SDL_CreateWindow(
-			"Petri dish",
+			"Two Brothers",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			windowDimensions.x,

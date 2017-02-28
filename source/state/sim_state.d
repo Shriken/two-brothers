@@ -11,7 +11,7 @@ enum GenTechnique {
 }
 
 class SimulationState {
-	static const int NUM_NODES = 10;
+	static const int NUM_NODES = 5;
 
 	bool running = true;
 	bool paused = false;
@@ -35,9 +35,6 @@ class SimulationState {
 				break;
 		}
 		curNode = graph.nodes[0];
-
-		import std.stdio;
-		writeln("graph connected: ", graph.isConnected());
 	}
 
 	Graph generateGraphRing(int size) {
@@ -52,13 +49,17 @@ class SimulationState {
 	Graph generateGraphSmartRandom(int size) {
 		Graph g;
 		g = new Graph(size);
-		foreach (node; g.nodes) {
-			node.left = g.nodes[uniform(0, size)];
-		}
-
 		do {
 			foreach (node; g.nodes) {
-				node.right = g.nodes[uniform(0, size)];
+				do node.left = g.nodes[uniform(0, size)];
+				while (node is node.left);
+			}
+
+			if (g.isConnected()) continue;
+
+			foreach (node; g.nodes) {
+				do node.right = g.nodes[uniform(0, size)];
+				while (node is node.right);
 			}
 		} while (!g.isConnected());
 		return g;

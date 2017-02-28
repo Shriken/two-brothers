@@ -75,7 +75,7 @@ class Node {
 		return format("%d: left=%d, right=%d, refs=%d", left, right, refs);
 	}
 
-	RenderCoords getRenderPos(State state,) {
+	RenderCoords getRenderPos(State state) {
 		auto renderState = state.renderState;
 		auto center = renderState.windowDimensions / 2;
 		auto theta = PI * 1.5
@@ -90,35 +90,43 @@ class Node {
 	static const int RAD = 200;
 	static const RenderCoords RECT_DIMS = RenderCoords(10, 10);
 	static const RenderCoords HEAD_DIMS = RenderCoords(6, 6);
-	void render(State state, SDL_Color color) {
+	void render(State state, SDL_Color color, bool drawEdges=true) {
 		auto renderPos = getRenderPos(state);
 
-		// left arrow
-		{
-			auto leftPos = left.getRenderPos(state);
-			state.renderState.drawLine(renderPos, leftPos, RED, 0xff);
-			auto length = sqrt(cast(real) renderPos.squaredDistanceTo(leftPos));
-			auto lerpParam = (length - HEAD_DIMS.x * 4) / length;
-			auto headPos = lerp(renderPos, leftPos, lerpParam);
-			state.renderState.fillRect(
-				headPos - HEAD_DIMS / 2,
-				HEAD_DIMS,
-				RED, 0xff
-			);
-		}
+		if (drawEdges) {
+			// left arrow
+			{
+				auto leftPos = left.getRenderPos(state);
+				state.renderState.drawLine(
+					renderPos, leftPos,
+					RED, 0xff
+				);
+				auto length = sqrt(cast(real) renderPos.squaredDistanceTo(leftPos));
+				auto lerpParam = (length - HEAD_DIMS.x * 4) / length;
+				auto headPos = lerp(renderPos, leftPos, lerpParam);
+				state.renderState.fillRect(
+					headPos - HEAD_DIMS / 2,
+					HEAD_DIMS,
+					RED, 0xff
+				);
+			}
 
-		// right arrow
-		{
-			auto rightPos = right.getRenderPos(state);
-			state.renderState.drawLine(renderPos, rightPos, GREEN, 0xff);
-			auto length = sqrt(cast(real) renderPos.squaredDistanceTo(rightPos));
-			auto lerpParam = (length - HEAD_DIMS.x * 4) / length;
-			auto headPos = lerp(renderPos, rightPos, lerpParam);
-			state.renderState.fillRect(
-				headPos - HEAD_DIMS / 2,
-				HEAD_DIMS,
-				GREEN, 0xff
-			);
+			// right arrow
+			{
+				auto rightPos = right.getRenderPos(state);
+				state.renderState.drawLine(
+					renderPos, rightPos,
+					GREEN, 0xff
+				);
+				auto length = sqrt(cast(real) renderPos.squaredDistanceTo(rightPos));
+				auto lerpParam = (length - HEAD_DIMS.x * 4) / length;
+				auto headPos = lerp(renderPos, rightPos, lerpParam);
+				state.renderState.fillRect(
+					headPos - HEAD_DIMS / 2,
+					HEAD_DIMS,
+					GREEN, 0xff
+				);
+			}
 		}
 
 		state.renderState.fillRect(
